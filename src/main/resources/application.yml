@@ -1,0 +1,32 @@
+spring:
+#freemarkder config
+  freemarker:
+      template-loader-path: classpath:/static/
+      cache: false
+      charset: UTF-8
+      check-template-location: true
+      content-type: text/html
+      expose-request-attributes: false
+      expose-session-attributes: false
+      request-context-attribute: request
+      suffix: .ftl
+  #mysql dataSource config
+  datasource:
+    url: jdbc:mysql://127.0.0.1:3306/venue?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC&useSSL=false
+    username: root
+    password: dXkods/Q0T%y
+    driver-class-name: com.mysql.cj.jdbc.Driver
+#mybatis config
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: con.example.venue.domain
+
+server:
+  port: 8080
+#  port: 8443
+#  ssl:
+#    key-store: hangge.p12
+#    key-alias: tomcathttps
+#    enabled: true
+#    key-store-password: LinkA1205
+#    key-store-type: JKS

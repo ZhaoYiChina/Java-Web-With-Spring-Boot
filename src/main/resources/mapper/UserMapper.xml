@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.venue.mapper.UserMapper" >
+
+    <select id="getAllUsers" resultType="com.example.venue.domain.User">
+        select * from userFirst
+    </select>
+
+    <select id="getUser" resultType="com.example.venue.domain.User" parameterType="String">
+        select * from userFirst where uPhone = #{uPhone}
+    </select>
+
+    <insert id="insertUser" parameterType="com.example.venue.domain.User">
+        insert into userFirst values
+        (
+        null,
+        #{uPhone},
+        #{uCode},
+        #{uName},
+        #{uIdNumber},
+        #{uCreateTime},
+        #{uUpdateTime},
+        #{remark}
+        )
+    </insert>
+
+    <update id="updateUser" parameterType="com.example.venue.domain.User">
+        update userFirst
+        <set>
+            <if test="uCode!=null">uCode = #{uCode},</if>
+            <if test="uName!=null">uNmae = #{uName},</if>
+            <if test="uIdNumber!=null">uIdNumber = #{uIdNumber},</if>
+            <if test="uCreateTime!=null">uCreateTime = #{uCreateTime},</if>
+            <if test="uUpdateTime!=null">uUpdateTime = #{uUpdateTime},</if>
+            <if test="remark!=null">remark = #{remark},</if>
+        </set>
+        where uPhone = #{uPhone}
+    </update>
+</mapper>

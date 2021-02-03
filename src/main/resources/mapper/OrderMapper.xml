@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.venue.mapper.OrderMapper" >
+
+    <select id="getUserOrdersUnChecked" resultType="com.example.venue.domain.Order" parameterType="String">
+        select * from visitOrder where uPhone = #{uPhone} and checked = 0 and uDate >= date_format(now(),'%Y-%m-%d')
+    </select>
+
+    <select id="getOrderNum" resultType="Integer" parameterType="map">
+        select count(*) from visitOrder where uDate = #{uDate} and uPeriod = #{uPeriod}
+    </select>
+
+    <insert id="insertOrder" parameterType="com.example.venue.domain.Order">
+        insert into visitOrder
+        (
+        uName,
+        uPhone,
+        uIdNumber,
+        uDate,
+        uPeriod,
+        uCreateTime,
+        uUpdateTime,
+        uChildNum,
+        uuid,
+        checked,
+        remark
+        )
+        values
+        (
+        #{uName},
+        #{uPhone},
+        #{uIdNumber},
+        #{uDate},
+        #{uPeriod},
+        #{uCreateTime},
+        #{uUpdateTime},
+        #{uChildNum},
+        #{uuid},
+        #{checked},
+        #{remark}
+        )
+    </insert>
+
+    <update id="updateOrder" parameterType="com.example.venue.domain.Order">
+        update visitOrder
+        <set>
+            <if test="uName!=null">uName = #{uName},</if>
+            <if test="uIdNumber!=null">uIdNumber = #{uIdNumber},</if>
+            <if test="uDate!=null">uDate = #{uDate},</if>
+            <if test="uPeriod!=null">uPeriod = #{uPeriod},</if>
+            <if test="uCreateTime!=null">uCreateTime = #{uCreateTime},</if>
+            <if test="uUpdateTime!=null">uUpdateTime = #{uUpdateTime},</if>
+            <if test="uChildNum!=null">uChildNum = #{uChildNum},</if>
+            <if test="checked!=null">checked = #{checked},</if>
+            <if test="remark!=null">remark = #{remark},</if>
+        </set>
+        where  id = #{id}
+    </update>
+
+    <select id="getOrderByUUID" resultType="com.example.venue.domain.Order" parameterType="String">
+        select * from visitOrder where uuid = #{uuid} and checked = 0 and uDate >= date_format(now(),'%Y-%m-%d')
+    </select>
+
+    <select id="getAllOrders" resultType="com.example.venue.domain.Order">
+        select udate, count(*) as uChildNum from visitorder where uDate BETWEEN "2021-02-05" and "2021-03-31" GROUP BY uDate ORDER BY uDate;
+    </select>
+
+    <select id="getAllCheckedOrders" resultType="com.example.venue.domain.Order">
+        select udate, count(*) as uChildNum from visitorder where checked = 1 GROUP BY uDate ORDER BY uDate;
+    </select>
+
+    <select id="getOrdersByDate" resultType="com.example.venue.domain.Order" parameterType="String">
+        select uPeriod, count(*) as uChildNum from visitorder where uDate = #{uDate} GROUP BY uPeriod ORDER BY uPeriod;
+    </select>
+
+    <select id="getCheckedOrdersByDate" resultType="com.example.venue.domain.Order" parameterType="String">
+        select uPeriod, count(*) as uChildNum from visitorder where uDate = #{uDate} and checked = 1 GROUP BY uPeriod ORDER BY uPeriod;
+    </select>
+
+    <select id="getOrdersByDateAndPeriod" resultType="com.example.venue.domain.Order" parameterType="map">
+        select uPeriod, count(*) as uChildNum from visitorder where uDate = #{uDate} and uPeriod = #{uPeriod} and checked = 1 GROUP BY uPeriod ORDER BY uPeriod;
+    </select>
+
+</mapper>
